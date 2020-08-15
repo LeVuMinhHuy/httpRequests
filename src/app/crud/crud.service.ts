@@ -22,12 +22,17 @@ export class CrudService {
 
   constructor(private httpClient: HttpClient) { }
   
-  // create(user): Observable<User> {
-  //   return this.httpClient.post<User>(this.apiServer, )
-  // }
+  // create
+  create(user): Observable<User> {
+    return this.httpClient.post<User>(this.apiServer, JSON.stringify(user), this.httpOptions)
+    .pipe(
+      catchError(this.errorHandler)
+    )
+  }
 
+  //get 
   getById(id): Observable<User> {
-    return this.httpClient.get<User>(this.apiServer + id)
+    return this.httpClient.get<User>(this.apiServer + '/' + id)
     .pipe(
       catchError(this.errorHandler)
     )
@@ -41,8 +46,21 @@ export class CrudService {
   }
 
   // update
+  update(id, user): Observable<User>{
+    return this.httpClient.put<User>(this.apiServer + '/' + id, JSON.stringify(user), this.httpOptions)
+    .pipe(
+      catchError(this.errorHandler)
+    )
+  }
 
   // delete
+  delete(id) {
+    console.log(id);
+    return this.httpClient.delete<User>(this.apiServer + '/' + id, this.httpOptions)
+    .pipe(
+      catchError(this.errorHandler)
+    )
+  }
 
   errorHandler(error){
     let errorMessage = '';
