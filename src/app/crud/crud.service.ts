@@ -21,7 +21,7 @@ export class CrudService {
   }
 
   constructor(private httpClient: HttpClient) { }
-  
+
   // create
   create(user): Observable<User> {
     return this.httpClient.post<User>(this.apiServer, JSON.stringify(user), this.httpOptions)
@@ -30,7 +30,7 @@ export class CrudService {
     )
   }
 
-  //get 
+  //get
   getById(id): Observable<User> {
     return this.httpClient.get<User>(this.apiServer + '/' + id)
     .pipe(
@@ -55,7 +55,7 @@ export class CrudService {
 
   // delete
   delete(id) {
-    console.log(id);
+    // console.log(id);
     return this.httpClient.delete<User>(this.apiServer + '/' + id, this.httpOptions)
     .pipe(
       catchError(this.errorHandler)
@@ -70,8 +70,8 @@ export class CrudService {
       errorMessage = 'Error Code : ${error.status}\nMessage : ${error.message}';
     }
     console.log(errorMessage);
-    
+
     return throwError(errorMessage);
   }
-  
+
 }
