@@ -101,7 +101,9 @@ export class UserUpdate {
   }
 
   submitForm(){
-    this.crudService.update(this.data.id, this.updateForm.value);
+    this.crudService.update(this.data.id, this.updateForm.value).subscribe(res => {
+
+    });
   }
 }
 
