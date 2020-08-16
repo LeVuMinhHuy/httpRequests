@@ -38,28 +38,33 @@ export class HomeComponent implements OnInit {
 
   submitForm(){
     this.crudService.create(this.userForm.value).subscribe(res => {
+      this.users.push(res);
       console.log('User created!');
       }
     );
+    // let newUser =
+    // console.log()
 
-    this.users.push(this.userForm.value);
   }
 
   openDialog(user) {
     const dialogRef = this.dialog.open(UserUpdate, {
-      data: user
+      data: user,
+      disableClose: true
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(res => {
       const index = this.users.indexOf(user, 0);
       if (index > -1) {
-        this.users.splice(index, 1, result);
+        this.users.splice(index, 1, res);
       };
       console.log("User updated!");
     });
   }
 
   delete(user){
+    console.log("delete:", user);
+    console.log("list:", this.users);
     this.crudService.delete(user.id).subscribe(res => {
       console.log('User delelted!');
     });
@@ -93,6 +98,7 @@ export class UserUpdate {
 
   ngOnInit(): void {
     this.updateForm = this.fb.group({
+      id: this.data.id,
       email : this.data.email,
       first_name: this.data.first_name,
       last_name: this.data.last_name,

@@ -1,6 +1,10 @@
 <div mat-dialog-content>
     <form [formGroup]="updateForm" (ngSubmit)="submitForm()" novalidate class="w3-center">
       <div class="form-group">
+        <label>Id</label><br>
+        <input disabled type="text" placeholder = {{data.id}} formControlName="id" class="form-control" maxlength="40" style="width: 384px;">
+      </div>
+      <div class="form-group">
           <label>Email</label><br>
           <input type="text" placeholder = {{data.email}} formControlName="email" class="form-control" maxlength="40" style="width: 384px;">
       </div>
