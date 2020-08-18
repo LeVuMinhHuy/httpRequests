@@ -1,6 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 import { CrudService } from '../crud.service';
@@ -31,7 +30,6 @@ export class HomeComponent implements OnInit {
     })
 
     this.crudService.getAll().subscribe((data: User[])=>{
-      console.log("data: ", data['data']);
       this.users = data['data'];
     })
   }
@@ -42,9 +40,6 @@ export class HomeComponent implements OnInit {
       console.log('User created!');
       }
     );
-    // let newUser =
-    // console.log()
-
   }
 
   openDialog(user) {
@@ -63,8 +58,6 @@ export class HomeComponent implements OnInit {
   }
 
   delete(user){
-    console.log("delete:", user);
-    console.log("list:", this.users);
     this.crudService.delete(user.id).subscribe(res => {
       console.log('User delelted!');
     });
@@ -86,8 +79,6 @@ export class HomeComponent implements OnInit {
 })
 export class UserUpdate {
   updateForm: FormGroup;
-  // users: User[] = [];
-
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: User,
@@ -107,9 +98,7 @@ export class UserUpdate {
   }
 
   submitForm(){
-    this.crudService.update(this.data.id, this.updateForm.value).subscribe(res => {
-
-    });
+    this.crudService.update(this.data.id, this.updateForm.value).subscribe(res => {});
   }
 }
 

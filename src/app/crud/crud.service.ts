@@ -55,7 +55,6 @@ export class CrudService {
 
   // delete
   delete(id) {
-    // console.log(id);
     return this.httpClient.delete<User>(this.apiServer + '/' + id, this.httpOptions)
     .pipe(
       catchError(this.errorHandler)
