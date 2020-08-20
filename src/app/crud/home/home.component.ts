@@ -73,9 +73,8 @@ export class HomeComponent implements OnInit {
   update(user){
     this.crudService.update(user.id, user).subscribe(res => {
       if (res != null){
-        console.log(user.id)
-        const userUpdate = this.users.find(i => i.id == user.id);
-        console.log(userUpdate)
+        // update by user json (not by length - 1 <- cause bug)
+        const userUpdate = this.users.find(i => i.id === user.id);
         if (userUpdate) {
           const index = this.users.indexOf(userUpdate, 0);
           this.users.splice(index, 1, user);
