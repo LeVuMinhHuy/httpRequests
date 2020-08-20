@@ -18,88 +18,84 @@ export class HomeComponent implements OnInit {
   constructor(
     public fb: FormBuilder,
     public crudService: CrudService,
-    public dialog: MatDialog
-    ) { }
+  ) {}
 
   ngOnInit(): void {
+    this.newForm();
+
+    this.crudService.getAll().subscribe((data: User[]) => {
+      if (data !== null){
+        this.users = data['data'];
+      }
+    });
+  }
+
+  newForm(){
     this.userForm = this.fb.group({
+      id : [''],
       email : [''],
       first_name: [''],
       last_name: [''],
       avatar: [''],
-    })
-
-    this.crudService.getAll().subscribe((data: User[])=>{
-      this.users = data['data'];
-    })
+    });
   }
 
-  submitForm(){
-    this.crudService.create(this.userForm.value).subscribe(res => {
-      this.users.push(res);
-      console.log('User created!');
+  checkSubmit(user){
+    if ( user.id === '' ) {
+      this.create(user);
+    }
+    else {
+      this.update(user);
+    }
+
+    this.newForm();
+  }
+
+  getUserUpdate(user){
+    this.userForm = this.fb.group(user) // get info of user for updating
+  }
+
+  create(user){
+    user.id = this.users[this.users.length - 1].id + 1;
+    // wrong: new id from length of users list + 1
+    // => create user.id = 8, 9, delete user.id = 8 (length now = 8), then new user has id = 9 again.
+    // correct: new id with last user id
+
+    this.crudService.create(user).subscribe(res => {
+        if (res !== null){
+          this.users.push(res);
+          console.log('User created!');
+        }
       }
     );
   }
 
-  openDialog(user) {
-    const dialogRef = this.dialog.open(UserUpdate, {
-      data: user,
-      disableClose: true
-    });
-
-    dialogRef.afterClosed().subscribe(res => {
-      const index = this.users.indexOf(user, 0);
-      if (index > -1) {
-        this.users.splice(index, 1, res);
+  update(user){
+    this.crudService.update(user.id, user).subscribe(res => {
+      if (res != null){
+        console.log(user.id)
+        const userUpdate = this.users.find(i => i.id == user.id);
+        console.log(userUpdate)
+        if (userUpdate) {
+          const index = this.users.indexOf(userUpdate, 0);
+          this.users.splice(index, 1, user);
+        }
       };
-      console.log("User updated!");
+
+      console.log('User updated!');
     });
   }
 
   delete(user){
     this.crudService.delete(user.id).subscribe(res => {
-      console.log('User delelted!');
+        const index = this.users.indexOf(user, 0);
+        if (index > -1) {
+          this.users.splice(index, 1);
+        }
+        console.log('User delelted!');
     });
-
-
-    const index = this.users.indexOf(user, 0);
-    if (index > -1) {
-      this.users.splice(index, 1);
-    }
-  }
-
-}
-
-
-@Component({
-  selector: 'app-update',
-  templateUrl: './update.component.html',
-  styleUrls: ['./home.component.css']
-})
-export class UserUpdate {
-  updateForm: FormGroup;
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: User,
-    public fb: FormBuilder,
-    public crudService: CrudService
-  ) {}
-
-
-  ngOnInit(): void {
-    this.updateForm = this.fb.group({
-      id: this.data.id,
-      email : this.data.email,
-      first_name: this.data.first_name,
-      last_name: this.data.last_name,
-      avatar: this.data.avatar
-    })
-  }
-
-  submitForm(){
-    this.crudService.update(this.data.id, this.updateForm.value).subscribe(res => {});
   }
 }
+
 
 

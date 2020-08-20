@@ -7,24 +7,22 @@ import { HttpClientModule } from '@angular/common/http'
 
 import { HomeComponent } from './crud/home/home.component'
 
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatDialogModule} from '@angular/material/dialog';
 
-import { UserUpdate } from './crud/home/home.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    UserUpdate,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent, ]

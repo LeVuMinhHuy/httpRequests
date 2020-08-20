@@ -7,20 +7,24 @@
 </div>
 
 <div class="w3-main w3-content w3-padding" style="max-width: 1000px;margin-top:40px">
-    <div class="w3-row-padding w3-padding-16 w3-center" >
+    <div class="w3-row-padding w3-padding-16 w3-center">
         <div class="w3-quarter"  *ngFor="let user of users">
           <img [src]="user.avatar" style="width:150px;height:150px;">
           <h3>{{user.first_name}} {{user.last_name}}</h3>
           <p>{{user.email}}</p>
           <button type="button" class="w3-button w3-white w3-border w3-border-red w3-round-large" (click)="delete(user)">Remove</button>
-          <button mat-button  class="w3-button w3-white w3-border w3-border-red w3-round-large" (click)="openDialog(user)">Update</button>
+          <a href="#form"><button class="w3-button w3-white w3-border w3-border-red w3-round-large" (click)="getUserUpdate(user)">Update</button></a>
         </div>
     </div>
 </div>
 
 
 <div>
-    <form [formGroup]="userForm" (ngSubmit)="submitForm()" novalidate class="w3-center">
+    <form [formGroup]="userForm" novalidate class="w3-center" id="form">
+        <div class="form-group">
+            <label>Id</label><br>
+            <input disabled type="text" formControlName="id" class="form-control" maxlength="40">
+          </div>
         <div class="form-group">
             <label>Email</label><br>
             <input type="text" formControlName="email" class="form-control" maxlength="40">
@@ -38,7 +42,8 @@
             <input type="text" formControlName="avatar" class="form-control" maxlength="100">
         </div>
 
-        <button type="submit">Submit</button>
+       <button type="submit" (click)="checkSubmit(this.userForm.value)">Submit</button>
+       <button type="submit" (click)="newForm()">Cancel</button>
     </form>
 </div>
 
