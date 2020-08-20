@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
 
   userForm: FormGroup;
   users: User[] = [];
+  stateButton = false;
 
   constructor(
     public fb: FormBuilder,
@@ -41,6 +42,7 @@ export class HomeComponent implements OnInit {
   }
 
   checkSubmit(user){
+    this.stateButton = true;
     if ( user.id === '' ) {
       this.create(user);
     }
@@ -64,6 +66,7 @@ export class HomeComponent implements OnInit {
     this.crudService.create(user).subscribe(res => {
         if (res !== null){
           this.users.push(res);
+          this.stateButton = false;
           console.log('User created!');
         }
       }

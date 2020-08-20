@@ -42,7 +42,7 @@
             <input type="text" formControlName="avatar" class="form-control" maxlength="100">
         </div>
 
-       <button type="submit" (click)="checkSubmit(this.userForm.value)">Submit</button>
+       <button type="submit" [disabled] = "stateButton" (click)="checkSubmit(this.userForm.value)">Submit</button>
        <button type="submit" (click)="newForm()">Cancel</button>
     </form>
 </div>
